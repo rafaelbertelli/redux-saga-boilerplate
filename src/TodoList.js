@@ -4,12 +4,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TodoActions from './store/actions/todos';
 
-const TodoList = ({ todos, addTodo }) => {
+const TodoList = ({ todos, addTodo, removeTodo }) => {
   return (
     <>
       <ul>
         {todos.map(todo => (
-          <li key={todo.id}>{todo.text}</li>
+          <li key={todo.id}>
+            <span>{todo.text} - </span>
+            <button type="button" onClick={() => removeTodo(todo.id)}>
+              X
+            </button>
+          </li>
         ))}
       </ul>
       <button
@@ -25,12 +30,6 @@ const TodoList = ({ todos, addTodo }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  todos: state.todos,
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators(TodoActions, dispatch);
-
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
@@ -39,7 +38,14 @@ TodoList.propTypes = {
     })
   ).isRequired,
   addTodo: PropTypes.func.isRequired,
+  removeTodo: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = dispatch => bindActionCreators(TodoActions, dispatch);
+
+const mapStateToProps = state => ({
+  todos: state.todos,
+});
 
 export default connect(
   mapStateToProps,
