@@ -1,17 +1,17 @@
 import React from 'react';
+
 import { Provider } from 'react-redux';
 import store from './store';
 
 import './config/ReactotronConfig';
+import Routes from './routes';
 
-import TodoList from './TodoList';
-
-console.tron.log({ dev: 'Rafiusk' });
+console.tron.log({ BOOTSTRAP: 'Project started' });
 
 function App() {
   return (
     <Provider store={store}>
-      <TodoList />
+      <Routes />
     </Provider>
   );
 }
