@@ -30,6 +30,8 @@ class Main extends Component {
     event.preventDefault();
 
     this.props.addFavoriteRequest(this.state.repositoryInput);
+
+    this.setState({ repositoryInput: '' });
   };
 
   render() {
