@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -8,14 +8,18 @@ import * as FavoritesActions from '../../store/actions/favorites';
 class Main extends Component {
   static propTypes = {
     addFavoriteRequest: PropTypes.func.isRequired,
-    favorites: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string,
-        description: PropTypes.string,
-        url: PropTypes.string,
-      })
-    ),
+    favorites: PropTypes.shape({
+      error: PropTypes.string.isRequired,
+      loading: PropTypes.bool.isRequired,
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          name: PropTypes.string,
+          description: PropTypes.string,
+          url: PropTypes.string,
+        })
+      ),
+    }),
   };
 
   state = {
@@ -30,7 +34,7 @@ class Main extends Component {
 
   render() {
     return (
-      <>
+      <Fragment>
         <form onSubmit={this.handleAddRepository}>
           <input
             placeholder="usuário/repositório"
@@ -40,10 +44,14 @@ class Main extends Component {
           <button type="submit" onClick={this.handleSubmit}>
             Enviar
           </button>
+
+          {this.props.favorites.loading && <span> Carregando...</span>}
+
+          {this.props.favorites.error && <p>{this.props.favorites.error}</p>}
         </form>
 
         <ul>
-          {this.props.favorites.map(favorite => (
+          {this.props.favorites.data.map(favorite => (
             <li key={favorite.id}>
               <p>
                 <strong>{favorite.name}</strong> {favorite.description}
@@ -54,7 +62,7 @@ class Main extends Component {
             </li>
           ))}
         </ul>
-      </>
+      </Fragment>
     );
   }
 }

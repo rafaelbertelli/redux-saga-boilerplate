@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import api from '../../services/api';
-import { addFavoriteSuccess } from '../actions/favorites';
+import { addFavoriteSuccess, addFavoriteError } from '../actions/favorites';
 
 export function* addFavorite(action) {
   try {
@@ -15,6 +15,6 @@ export function* addFavorite(action) {
 
     yield put(addFavoriteSuccess(repositoryData));
   } catch (err) {
-    console.error(err.message);
+    yield put(addFavoriteError(err.message));
   }
 }
