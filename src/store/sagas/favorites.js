@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import api from '../../services/api';
-import { addFavoriteSuccess, addFavoriteError } from '../actions/favorites';
+import { Creators as FavoriteActions } from '../ducks/favorites';
 
 export function* addFavorite(action) {
   try {
@@ -13,8 +13,8 @@ export function* addFavorite(action) {
       description: data.description,
     };
 
-    yield put(addFavoriteSuccess(repositoryData));
+    yield put(FavoriteActions.addFavoriteSuccess(repositoryData));
   } catch (err) {
-    yield put(addFavoriteError(err.message));
+    yield put(FavoriteActions.addFavoriteError(err.message));
   }
 }
