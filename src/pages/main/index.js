@@ -9,7 +9,7 @@ class Main extends Component {
   static propTypes = {
     addFavoriteRequest: PropTypes.func.isRequired,
     favorites: PropTypes.shape({
-      error: PropTypes.string.isRequired,
+      error: PropTypes.oneOfType([null, PropTypes.string]),
       loading: PropTypes.bool.isRequired,
       data: PropTypes.arrayOf(
         PropTypes.shape({
@@ -47,7 +47,9 @@ class Main extends Component {
 
           {this.props.favorites.loading && <span> Carregando...</span>}
 
-          {this.props.favorites.error && <p>{this.props.favorites.error}</p>}
+          {!!this.props.favorites.error && (
+            <p style={{ color: '#F00' }}>{this.props.favorites.error}</p>
+          )}
         </form>
 
         <ul>
